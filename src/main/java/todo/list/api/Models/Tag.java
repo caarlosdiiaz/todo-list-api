@@ -14,10 +14,11 @@ public class Tag {
   private UUID id;
 
   private String name;
-  @Column(columnDefinition = "default '#000000'")
-  private String color;
-  @Column(columnDefinition = "boolean default false")
-  private Boolean favorite;
+  @Column(length = 7)
+  private String color = "#000000";
+
+  @Column(nullable = false, columnDefinition = "boolean default false")
+  private Boolean favorite = false;
 
   @ManyToMany(mappedBy = "tags")
   private List<Task> tasks;
