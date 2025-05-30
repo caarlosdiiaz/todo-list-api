@@ -1,9 +1,6 @@
 package todo.list.api.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
@@ -17,7 +14,9 @@ public class Tag {
   private UUID id;
 
   private String name;
+  @Column(columnDefinition = "default '#000000'")
   private String color;
+  @Column(columnDefinition = "boolean default false")
   private Boolean favorite;
 
   @ManyToMany(mappedBy = "tags")

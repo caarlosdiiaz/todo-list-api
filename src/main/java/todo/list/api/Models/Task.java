@@ -12,8 +12,10 @@ public class Task {
   @Id
   @UuidGenerator
   private UUID id;
+  @Column(nullable = false)
   private String title;
   private String description;
+  @Column(columnDefinition = "boolean default false")
   private Boolean completed;
 
   @ManyToOne
@@ -86,5 +88,18 @@ public class Task {
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
+  }
+
+  public void addTag(Tag tag) {
+    if (this.tags == null) {
+      this.tags = new java.util.ArrayList<>();
+    }
+    this.tags.add(tag);
+  }
+
+  public void deleteTag(Tag tag) {
+    if (this.tags != null) {
+      this.tags.remove(tag);
+    }
   }
 }
