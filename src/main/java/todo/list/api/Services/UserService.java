@@ -85,7 +85,6 @@ public class UserService {
       repository.save(existingUser);
       return true;
     }
-
     return false;
   }
 }

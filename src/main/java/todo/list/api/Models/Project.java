@@ -14,7 +14,7 @@ public class Project {
   @UuidGenerator
   private UUID id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String name;
   private String description;
 
@@ -83,5 +83,33 @@ public class Project {
 
   public void setTasks(List<Task> tasks) {
     this.tasks = tasks;
+  }
+
+  public void addUser(User user) {
+    if (users != null && !users.contains(user)) {
+      users.add(user);
+      user.getProjects().add(this);
+    }
+  }
+
+  public void removeUser(User user) {
+    if (users != null && users.contains(user)) {
+      users.remove(user);
+      user.getProjects().remove(this);
+    }
+  }
+
+  public void addTask(Task task) {
+    if (tasks != null && !tasks.contains(task)) {
+      tasks.add(task);
+      task.setProject(this);
+    }
+  }
+
+  public void removeTask(Task task) {
+    if (tasks != null && tasks.contains(task)) {
+      tasks.remove(task);
+      task.setProject(null);
+    }
   }
 }
