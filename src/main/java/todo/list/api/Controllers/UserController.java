@@ -2,6 +2,8 @@ package todo.list.api.Controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import todo.list.api.Configs.JwtUtil;
+import todo.list.api.Dtos.AuthResponse;
 import todo.list.api.Dtos.CreateUserDto;
 import todo.list.api.Dtos.LoginDto;
 import todo.list.api.Dtos.UserDto;
@@ -55,10 +57,13 @@ public class UserController {
 
   // POST: Login de usuario
   @PostMapping("/login")
-  public ResponseEntity<UserDto> logIn(@RequestBody LoginDto dto) {
+  public ResponseEntity<AuthResponse> logIn(@RequestBody LoginDto dto) {
     return service.logIn(dto)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.status(401).build());
+        .map(userDto -> {
+          String token = JwtUtil.generateToken(userDto);
+          return ResponseEntity.ok(new AuthResponse(token));
+        })
+        .orElse(ResponseEntity.status(401).body(new AuthResponse("Credenciales inválidas")));
   }
 
   // PUT: Actualizar usuario
